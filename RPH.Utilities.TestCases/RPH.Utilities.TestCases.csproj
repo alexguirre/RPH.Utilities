@@ -7,8 +7,8 @@
     <ProjectGuid>{3C342C37-BD58-4114-AD33-5CBDC385A35F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RPH.Utilities.TestCasesPlugin</RootNamespace>
-    <AssemblyName>RPH.Utilities.TestCasesPlugin</AssemblyName>
+    <RootNamespace>RPH.Utilities.TestCases</RootNamespace>
+    <AssemblyName>RPH.Utilities.TestCases</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentsTestCases.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

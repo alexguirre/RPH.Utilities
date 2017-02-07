@@ -15,6 +15,7 @@
 
         public static void RegisterComplexObject(ComplexObject complexObject)
         {
+            Game.LogTrivial($"[{nameof(ComplexObjectUpdater)}] Registering {nameof(ComplexObject)} of type {complexObject.GetType().Name}");
             Type t = complexObject.GetType();
 
             if (ComplexObjectsByType.ContainsKey(t))

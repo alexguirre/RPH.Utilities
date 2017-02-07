@@ -24,6 +24,11 @@
 
         public event ComplexObjectEventHandler Destroyed;
 
+        public ComplexObject()
+        {
+            ComplexObjectUpdater.RegisterComplexObject(this);
+        }
+
         public T AddComponent<T>() where T : Component, new()
         {
             if (HasComponent<T>())
@@ -103,5 +108,11 @@
                 }
             }
         }
+    }
+
+    public abstract class ComplexWorldObject : ComplexObject
+    {
+        public virtual Vector3 Position { get; set; }
+        public virtual Rotator Rotation { get; set; }
     }
 }
