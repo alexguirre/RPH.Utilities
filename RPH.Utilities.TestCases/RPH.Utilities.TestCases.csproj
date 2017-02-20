@@ -62,13 +62,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BehaviorTreeTestCases.cs" />
     <Compile Include="ComponentsTestCases.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RPH.Utilities.AI\RPH.Utilities.AI.csproj">
-      <Project>{9006f343-b468-4fd8-a520-444bf75369f3}</Project>
+      <Project>{a81a63c1-a0cc-4385-ba9c-a1531069a75c}</Project>
       <Name>RPH.Utilities.AI</Name>
     </ProjectReference>
     <ProjectReference Include="..\RPH.Utilities.Tests\RPH.Utilities.Tests.csproj">

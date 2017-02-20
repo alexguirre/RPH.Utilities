@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9006F343-B468-4FD8-A520-444BF75369F3}</ProjectGuid>
+    <ProjectGuid>{A81A63C1-A0CC-4385-BA9C-A1531069A75C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RPH.Utilities.AI</RootNamespace>
@@ -37,6 +37,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\x64\Debug\RPH.Utilities.AI.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -61,16 +62,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdvancedEntity.cs" />
-    <Compile Include="AdvancedPed.cs" />
-    <Compile Include="ComplexObject.cs" />
-    <Compile Include="ComplexObjectUpdater.cs" />
-    <Compile Include="Component.cs" />
-    <Compile Include="Components\Entities\EntityEventsComponent.cs" />
+    <Compile Include="BehaviorAgent.cs" />
+    <Compile Include="BehaviorTree.cs" />
+    <Compile Include="BehaviorTask.cs" />
+    <Compile Include="Blackboard.cs" />
+    <Compile Include="Composites\BehaviorComposite.cs" />
+    <Compile Include="Composites\StatefulSelector.cs" />
+    <Compile Include="Composites\Selector.cs" />
+    <Compile Include="Composites\StatefulSequence.cs" />
+    <Compile Include="Composites\Sequence.cs" />
+    <Compile Include="Decorators\BehaviorDecorator.cs" />
+    <Compile Include="Decorators\Failer.cs" />
+    <Compile Include="Decorators\Succeeder.cs" />
+    <Compile Include="Leafs\Condition.cs" />
+    <Compile Include="Decorators\Inverter.cs" />
+    <Compile Include="Leafs\Action.cs" />
+    <Compile Include="Leafs\BehaviorLeaf.cs" />
+    <Compile Include="Leafs\GoToPosition.cs" />
+    <Compile Include="Leafs\GetNearestPed.cs" />
+    <Compile Include="Leafs\ShootAt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\DeserializeBehaviorConstructorAttribute.cs" />
+    <Compile Include="Serialization\SerializableBehaviorTask.cs" />
+    <Compile Include="Serialization\SerializableBehaviorTree.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)" "C:\Users\PcCom1\Documents\Visual Studio 2015\Projects\EmergencyV\EmergencyV\Dependencies" /Y</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
