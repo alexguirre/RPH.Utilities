@@ -24,7 +24,7 @@
             this.blackboardKey = blackboardKey;
         }
 
-        public override bool CheckCondition(ref BehaviorTreeContext context)
+        protected override bool CheckCondition(ref BehaviorTreeContext context)
         {
             Entity[] nearbyPeds = World.GetEntities(position, range, GetEntitiesFlags.ConsiderAllPeds);
 
@@ -59,7 +59,7 @@
             this.blackboardKey = blackboardKey;
         }
 
-        public override bool CheckCondition(ref BehaviorTreeContext context)
+        protected override bool CheckCondition(ref BehaviorTreeContext context)
         {
             if (!(context.Agent.Target is ISpatial))
             {

@@ -12,7 +12,7 @@
         {
         }
 
-        public abstract bool CheckCondition(ref BehaviorTreeContext context);
+        protected abstract bool CheckCondition(ref BehaviorTreeContext context);
 
         protected override BehaviorStatus OnBehave(ref BehaviorTreeContext context)
         {
@@ -54,7 +54,7 @@
             this.conditionWithContext = conditionWithContext;
         }
 
-        public override bool CheckCondition(ref BehaviorTreeContext context)
+        protected override bool CheckCondition(ref BehaviorTreeContext context)
         {
             if (condition != null)
             {
