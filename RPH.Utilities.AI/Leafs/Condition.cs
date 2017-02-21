@@ -35,4 +35,37 @@
             }
         }
     }
+    
+    public class DelegatedCondition : Condition
+    {
+        public delegate bool ConditionDelegate();
+        public delegate bool ConditionDelegateWithContext(ref BehaviorTreeContext context);
+
+        ConditionDelegate condition;
+        ConditionDelegateWithContext conditionWithContext;
+
+        public DelegatedCondition(ConditionDelegate condition)
+        {
+            this.condition = condition;
+        }
+
+        public DelegatedCondition(ConditionDelegateWithContext conditionWithContext)
+        {
+            this.conditionWithContext = conditionWithContext;
+        }
+
+        public override bool CheckCondition(ref BehaviorTreeContext context)
+        {
+            if (condition != null)
+            {
+                return condition.Invoke();
+            }
+            else if(conditionWithContext != null)
+            {
+                return conditionWithContext.Invoke(ref context);
+            }
+
+            return false;
+        }
+    }
 }
