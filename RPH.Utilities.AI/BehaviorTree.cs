@@ -88,40 +88,23 @@
         {
             NodeCount++;
             OpenNodes.Add(node);
-
-#if DEBUG
-            Game.LogTrivial($"[{nameof(BehaviorTreeContext)}] OnEnter({Tree.Root.GetTaskById(node).GetType().Name}, {node})");
-#endif
         }
 
         public void OnOpenNode(Guid node)
         {
-#if DEBUG
-            Game.LogTrivial($"[{nameof(BehaviorTreeContext)}] OnOpen({Tree.Root.GetTaskById(node).GetType().Name}, {node})");
-#endif
         }
 
         public void OnBehaveNode(Guid node)
         {
-#if DEBUG
-            Game.LogTrivial($"[{nameof(BehaviorTreeContext)}] OnBehave({Tree.Root.GetTaskById(node).GetType().Name}, {node})");
-#endif
         }
 
         public void OnCloseNode(Guid node)
         {
             OpenNodes.Remove(node);
-
-#if DEBUG
-            Game.LogTrivial($"[{nameof(BehaviorTreeContext)}] OnClose({Tree.Root.GetTaskById(node).GetType().Name}, {node})");
-#endif
         }
 
         public void OnExitNode(Guid node)
         {
-#if DEBUG
-            Game.LogTrivial($"[{nameof(BehaviorTreeContext)}] OnExit({Tree.Root.GetTaskById(node).GetType().Name}, {node})");
-#endif
         }
     }
 }
