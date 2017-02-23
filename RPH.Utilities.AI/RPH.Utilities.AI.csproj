@@ -73,6 +73,7 @@
     <Compile Include="Composites\Sequence.cs" />
     <Compile Include="Decorators\BehaviorDecorator.cs" />
     <Compile Include="Decorators\Failer.cs" />
+    <Compile Include="Decorators\Service.cs" />
     <Compile Include="Decorators\Succeeder.cs" />
     <Compile Include="Leafs\Condition.cs" />
     <Compile Include="Decorators\Inverter.cs" />
