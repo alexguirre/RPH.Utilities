@@ -18,124 +18,45 @@
 
     public static class BehaviorTreeTestCases
     {
-        //[TestCase]
-        //public static void BehaviorTreeTest()
-        //{
-            //// https://outforafight.files.wordpress.com/2014/07/selector1.png
+        [TestCase]
+        public static void BehaviorTreePedTasks()
+        {
+            GameFiber.Sleep(250);
 
-            //Sequence mainSequence = new Sequence
-            //    (
-            //        new ActionPerformer(() =>
-            //        {
-            //            Game.LogTrivial("   MainSequence -> Walk to Door");
-            //            return MathHelper.Choose(BehaviorStatus.Success, BehaviorStatus.Running, BehaviorStatus.Running);
-            //        }),
-            //        new Selector(
-            //            new ActionPerformer(() =>
-            //            {
-            //                Game.LogTrivial("   MainSequence -> Selector -> Open Door");
-            //                return MathHelper.Choose(BehaviorStatus.Success, BehaviorStatus.Failure, BehaviorStatus.Running);
-            //            }),
-            //            new Sequence(
-            //                new ActionPerformer(() =>
-            //                {
-            //                    Game.LogTrivial("   MainSequence -> Selector -> Sequence -> Unlock Door");
-            //                    return MathHelper.Choose(BehaviorStatus.Success, BehaviorStatus.Failure, BehaviorStatus.Running);
-            //                }),
-            //                new ActionPerformer(() =>
-            //                {
-            //                    Game.LogTrivial("   MainSequence -> Selector -> Sequence -> Open Door");
-            //                    return MathHelper.Choose(BehaviorStatus.Success, BehaviorStatus.Failure, BehaviorStatus.Running);
-            //                })
-            //            ),
-            //            new ActionPerformer(() =>
-            //            {
-            //                Game.LogTrivial("   MainSequence -> Selector -> Smash Door");
-            //                return MathHelper.Choose(BehaviorStatus.Success, BehaviorStatus.Failure, BehaviorStatus.Running);
-            //            })
-            //        ),
-            //        new ActionPerformer(() =>
-            //        {
-            //            Game.LogTrivial("   MainSequence -> Walk through Door");
-            //            return MathHelper.Choose(BehaviorStatus.Success, BehaviorStatus.Running);
-            //        }),
-            //        new ActionPerformer(() =>
-            //        {
-            //            Game.LogTrivial("   MainSequence -> Close Door");
-            //            return MathHelper.Choose(BehaviorStatus.Success, BehaviorStatus.Running);
-            //        })
-            //    );
-
-            //Selector root = new Selector(mainSequence);
-
-            //BehaviorTree behavior = new BehaviorTree(root);
-
-            //while (true)
-            //{
-            //    GameFiber.Yield();
-
-            //    BehaviorStatus s = behavior.Perform();
-            //    Game.LogTrivial("BehaviorState: " + s);
-            //    if (s != BehaviorStatus.Running)
-            //        break;
-            //}
-            //Game.DisplayNotification("Result: " + behavior.Status);
-            //Game.LogTrivial("Result: " + behavior.Status);
-        //}
+            Ped ped = new Ped("s_m_y_cop_01", Game.LocalPlayer.Character.GetOffsetPositionFront(20f), Game.LocalPlayer.Character.Heading);
+            ped.BlockPermanentEvents = true;
+            ped.Inventory.GiveNewWeapon(WeaponHash.CarbineRifle, -1, true);
 
 
-        //[TestCase]
-        //public static void BehaviorTreePlayerAndPedGoToPositionTasks()
-        //{
-        //    //GameFiber.Sleep(250);
+            BehaviorTask root = new Selector(
+                new Sequence(
+                        new GetNearestPedToAgent(5f, false, "nearestPedTarget"),
+                        new DelegatedCondition((ref BehaviorTreeContext context) => context.Agent.Blackboard.Get<Ped>("nearestPedTarget", context.Tree.Id).Exists()),
+                        new ShootAt(3000, FiringPattern.BurstFireRifle, "nearestPedTarget")
+                    ),
+                new StatefulSequence(
+                        new GoToPosition(Game.LocalPlayer.Character.GetOffsetPosition(new Vector3(-10f, 25f, 0f)), 10f, 2.0f),
+                        new GoToPosition(Game.LocalPlayer.Character.GetOffsetPosition(new Vector3(-10f, 45f, 0f)), 10f, 2.0f),
+                        new GoToPosition(Game.LocalPlayer.Character.GetOffsetPosition(new Vector3(10f, 45f, 0f)), 10f, 2.0f),
+                        new GoToPosition(Game.LocalPlayer.Character.GetOffsetPosition(new Vector3(10f, 25f, 0f)), 10f, 2.0f)
+                    )
+                );
 
-        //    //Ped ped = new Ped("s_m_y_cop_01", Game.LocalPlayer.Character.GetOffsetPositionFront(20f), Game.LocalPlayer.Character.Heading);
-        //    //ped.BlockPermanentEvents = true;
-        //    //ped.Inventory.GiveNewWeapon(WeaponHash.CarbineRifle, -1, true);
+            BehaviorTree tree = new BehaviorTree(root);
 
+            BehaviorAgent pedAgent = new BehaviorAgent(ped);
 
-        //    //BehaviorTask root = new Selector(
-        //    //    new Sequence(
-        //    //            new IsAnyPedNearAgent(5f, false),
-        //    //            new ShootAtNearestPed(3000, FiringPattern.BurstFireRifle)
-        //    //        ),
-        //    //    new StatefulSequence(
-        //    //            new GoToPosition(Game.LocalPlayer.Character.GetOffsetPosition(new Vector3(-10f, 25f, 0f)), 10f, 2.0f),
-        //    //            new GoToPosition(Game.LocalPlayer.Character.GetOffsetPosition(new Vector3(-10f, 45f, 0f)), 10f, 2.0f),
-        //    //            new GoToPosition(Game.LocalPlayer.Character.GetOffsetPosition(new Vector3(10f, 45f, 0f)), 10f, 2.0f),
-        //    //            new GoToPosition(Game.LocalPlayer.Character.GetOffsetPosition(new Vector3(10f, 25f, 0f)), 10f, 2.0f)
-        //    //        )
-        //    //    );
-
-        //    //BehaviorTree tree = new BehaviorTree(root);
-            
-        //    //BehaviorAgent pedAgent = new BehaviorAgent(ped);
-
-        //    //while (true)
-        //    //{
-        //    //    GameFiber.Sleep(250);
-
-        //    //    //tree.ExecuteOn(playerPedAgent);
-        //    //    tree.ExecuteOn(pedAgent);
-        //    //}
-        //}
+            while (true)
+            {
+                GameFiber.Sleep(250);
+                
+                tree.ExecuteOn(pedAgent);
+            }
+        }
 
         [TestCase]
-        public static void BehaviorTreeSerializationTest()
+        public static void BehaviorTreeSerialization()
         {
-            //BehaviorTask root = new Selector(
-            //    new Sequence(
-            //            new IsAnyPedNearAgent(5f, false),
-            //            new ShootAtNearestPed(3000, FiringPattern.BurstFireRifle)
-            //        ),
-            //    new StatefulSequence(
-            //            new GoToPosition(Game.LocalPlayer.Character.GetOffsetPosition(new Vector3(-10f, 25f, 0f)), 10f, 2.0f),
-            //            new GoToPosition(Game.LocalPlayer.Character.GetOffsetPosition(new Vector3(-10f, 45f, 0f)), 10f, 2.0f),
-            //            new GoToPosition(Game.LocalPlayer.Character.GetOffsetPosition(new Vector3(10f, 45f, 0f)), 10f, 2.0f),
-            //            new GoToPosition(Game.LocalPlayer.Character.GetOffsetPosition(new Vector3(10f, 25f, 0f)), 10f, 2.0f)
-            //        )
-            //    );
-
             SerializableBehaviorTask root = new SerializableBehaviorComposite()
             {
                 TypeFullName = typeof(Selector).FullName,
