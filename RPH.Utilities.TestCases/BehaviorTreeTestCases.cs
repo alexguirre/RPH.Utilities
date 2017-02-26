@@ -29,11 +29,12 @@
 
 
             BehaviorTask root = new Selector(
-                new Sequence(
-                        new GetNearestPedToAgent(5f, false, "nearestPedTarget"),
-                        new DelegatedCondition((ref BehaviorTreeContext context) => context.Agent.Blackboard.Get<Ped>("nearestPedTarget", context.Tree.Id).Exists()),
+                new GetNearestPedToAgent("nearestPedTarget", 100, 15.0f, false, 
+                    new Sequence(
+                        new EntityExists("nearestPedTarget"),
                         new ShootAt(3000, FiringPattern.BurstFireRifle, "nearestPedTarget")
-                    ),
+                    )
+                ),
                 new StatefulSequence(
                         new GoToPosition(Game.LocalPlayer.Character.GetOffsetPosition(new Vector3(-10f, 25f, 0f)), 10f, 2.0f),
                         new GoToPosition(Game.LocalPlayer.Character.GetOffsetPosition(new Vector3(-10f, 45f, 0f)), 10f, 2.0f),
@@ -69,12 +70,17 @@
                         Args = new object[0],
                         Children = new SerializableBehaviorTask[]
                         {
-                            new SerializableBehaviorLeaf()
+                            new SerializableBehaviorDecorator()
                             {
                                 TypeFullName = typeof(GetNearestPedToAgent).FullName,
-                                Args = new object[] { 8.0f, false, "nearestPedToAgentForShootingTask" },
+                                Args = new object[] { "nearestPedToAgentForShootingTask", 15.0f, false },
+                                Child = new SerializableBehaviorLeaf()
+                                        {
+                                            TypeFullName = typeof(EntityExists).FullName,
+                                            Args = new object[] { "nearestPedToAgentForShootingTask" },
+                                        }
                             },
-                            new SerializableBehaviorLeaf() 
+                            new SerializableBehaviorLeaf()
                             {
                                 TypeFullName = typeof(ShootAt).FullName,
                                 Args = new object[] { 2000, FiringPattern.BurstFireRifle, "nearestPedToAgentForShootingTask" },

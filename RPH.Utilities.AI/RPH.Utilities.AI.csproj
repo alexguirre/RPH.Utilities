@@ -79,8 +79,9 @@
     <Compile Include="Decorators\Inverter.cs" />
     <Compile Include="Leafs\Action.cs" />
     <Compile Include="Leafs\BehaviorLeaf.cs" />
+    <Compile Include="Leafs\EntityExists.cs" />
     <Compile Include="Leafs\GoToPosition.cs" />
-    <Compile Include="Leafs\GetNearestPed.cs" />
+    <Compile Include="Decorators\GetNearestPed.cs" />
     <Compile Include="Leafs\ShootAt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\DeserializeBehaviorConstructorAttribute.cs" />
