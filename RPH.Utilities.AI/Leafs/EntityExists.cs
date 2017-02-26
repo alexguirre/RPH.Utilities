@@ -1,4 +1,4 @@
-﻿namespace RPH.Utilities.AI.Decorators
+﻿namespace RPH.Utilities.AI.Leafs
 {
     // RPH
     using Rage;
@@ -9,7 +9,7 @@
 
         [Serialization.DeserializeBehaviorConstructor]
         /// <param name="entityKey">The key where the entity is saved in the blackboard's tree memory.</param>
-        public EntityExists(string entityKey, BehaviorTask child) : base(child)
+        public EntityExists(string entityKey)
         {
             this.entityKey = entityKey;
         }

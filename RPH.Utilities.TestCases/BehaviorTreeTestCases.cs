@@ -31,9 +31,8 @@
             BehaviorTask root = new Selector(
                 new GetNearestPedToAgent("nearestPedTarget", 100, 15.0f, false, 
                     new Sequence(
-                        new EntityExists("nearestPedTarget",
-                            new ShootAt(3000, FiringPattern.BurstFireRifle, "nearestPedTarget")
-                        )
+                        new EntityExists("nearestPedTarget"),
+                        new ShootAt(3000, FiringPattern.BurstFireRifle, "nearestPedTarget")
                     )
                 ),
                 new StatefulSequence(

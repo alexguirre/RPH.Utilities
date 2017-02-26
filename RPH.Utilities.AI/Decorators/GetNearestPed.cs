@@ -29,7 +29,7 @@
             foreach (Entity e in nearbyPeds.OrderBy(e => Vector3.DistanceSquared(e.Position, position)))
             {
                 Ped p = (Ped)e;
-                if ((considerDeadPeds ? true : p.IsAlive))
+                if ((considerDeadPeds ? p.IsAlive : true))
                 {
                     context.Agent.Blackboard.Set<Ped>(key, p, context.Tree.Id);
                     return;
@@ -68,7 +68,7 @@
             foreach (Entity e in nearbyPeds.OrderBy(e => Vector3.DistanceSquared(e.Position, position)))
             {
                 Ped p = (Ped)e;
-                if ((considerDeadPeds ? true : p.IsAlive))
+                if ((considerDeadPeds ? p.IsAlive : true))
                 {
                     if (context.Agent.Target is Ped && ((Ped)context.Agent.Target) != p)
                     {

@@ -1,4 +1,4 @@
-﻿namespace RPH.Utilities.AI.Decorators
+﻿namespace RPH.Utilities.AI.Leafs
 {
     // System
     using System;
@@ -6,9 +6,9 @@
     // RPH
     using Rage;
 
-    public abstract class Condition : BehaviorDecorator
+    public abstract class Condition : BehaviorLeaf
     {
-        public Condition(BehaviorTask child) : base(child)
+        public Condition()
         {
         }
 
@@ -20,7 +20,7 @@
             {
                 if (CheckCondition(ref context))
                 {
-                    return Child.Behave(ref context);
+                    return BehaviorStatus.Success;
                 }
                 else
                 {
@@ -44,12 +44,12 @@
         ConditionDelegate condition;
         ConditionDelegateWithContext conditionWithContext;
 
-        public DelegatedCondition(ConditionDelegate condition, BehaviorTask child) : base(child)
+        public DelegatedCondition(ConditionDelegate condition)
         {
             this.condition = condition;
         }
 
-        public DelegatedCondition(ConditionDelegateWithContext conditionWithContext, BehaviorTask child) : base(child)
+        public DelegatedCondition(ConditionDelegateWithContext conditionWithContext)
         {
             this.conditionWithContext = conditionWithContext;
         }

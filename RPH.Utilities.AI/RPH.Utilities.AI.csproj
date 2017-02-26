@@ -75,11 +75,11 @@
     <Compile Include="Decorators\Failer.cs" />
     <Compile Include="Decorators\Service.cs" />
     <Compile Include="Decorators\Succeeder.cs" />
-    <Compile Include="Decorators\Condition.cs" />
+    <Compile Include="Leafs\Condition.cs" />
     <Compile Include="Decorators\Inverter.cs" />
     <Compile Include="Leafs\Action.cs" />
     <Compile Include="Leafs\BehaviorLeaf.cs" />
-    <Compile Include="Decorators\EntityExists.cs" />
+    <Compile Include="Leafs\EntityExists.cs" />
     <Compile Include="Leafs\GoToPosition.cs" />
     <Compile Include="Decorators\GetNearestPed.cs" />
     <Compile Include="Leafs\ShootAt.cs" />
