@@ -7,8 +7,8 @@
     {
         string entityKey;
 
-        [Serialization.DeserializeBehaviorConstructor]
         /// <param name="entityKey">The key where the entity is saved in the blackboard's tree memory.</param>
+        [Serialization.DeserializeBehaviorConstructor]
         public EntityExists(string entityKey)
         {
             this.entityKey = entityKey;

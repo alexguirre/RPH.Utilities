@@ -29,7 +29,7 @@
 
 
             BehaviorTask root = new Selector(
-                new GetNearestPedToAgent("nearestPedTarget", 100, 15.0f, false, 
+                new GetNearestPedToAgent("nearestPedTarget", 100, 15.0f, (p) => p.IsAlive, 
                     new Sequence(
                         new EntityExists("nearestPedTarget"),
                         new ShootAt(3000, FiringPattern.BurstFireRifle, "nearestPedTarget")
@@ -56,7 +56,7 @@
         }
 
         [TestCase]
-        public static void BehaviorTreeSerialization()
+        public static void BehaviorTreeSerialization() // OUTDATED
         {
             SerializableBehaviorTask root = new SerializableBehaviorComposite()
             {
