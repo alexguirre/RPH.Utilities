@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3C342C37-BD58-4114-AD33-5CBDC385A35F}</ProjectGuid>
+    <ProjectGuid>{C9DEE66D-8D4E-4E34-845B-FA7E11E88DA3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RPH.Utilities.TestCases</RootNamespace>
-    <AssemblyName>RPH.Utilities.TestCases</AssemblyName>
+    <RootNamespace>RPH.Utilities.Physics</RootNamespace>
+    <AssemblyName>RPH.Utilities.Physics</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -49,14 +49,12 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="RagePluginHookSDK, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="RagePluginHookSDK">
       <HintPath>..\Dependencies\RagePluginHookSDK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -65,24 +63,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BehaviorTreeTestCases.cs" />
-    <Compile Include="PhysicsTestCases.cs" />
-    <Compile Include="Plugin.cs" />
+    <Compile Include="IPhysicsObject.cs" />
+    <Compile Include="Joint.cs" />
+    <Compile Include="Particle.cs" />
+    <Compile Include="PhysicsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RPH.Utilities.AI\RPH.Utilities.AI.csproj">
-      <Project>{a81a63c1-a0cc-4385-ba9c-a1531069a75c}</Project>
-      <Name>RPH.Utilities.AI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RPH.Utilities.Physics\RPH.Utilities.Physics.csproj">
-      <Project>{c9dee66d-8d4e-4e34-845b-fa7e11e88da3}</Project>
-      <Name>RPH.Utilities.Physics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RPH.Utilities.Tests\RPH.Utilities.Tests.csproj">
-      <Project>{5855c7a3-f1d2-4cc0-ba7a-98784c7d3bf0}</Project>
-      <Name>RPH.Utilities.Tests</Name>
-    </ProjectReference>
+    <Compile Include="Ropes\Rope.cs" />
+    <Compile Include="SpringJoint.cs" />
+    <Compile Include="StringJoint.cs" />
+    <Compile Include="Util.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
