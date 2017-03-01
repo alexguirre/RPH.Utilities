@@ -221,7 +221,7 @@
         {
             PhysicsManager mgr = new PhysicsManager();
 
-            Rope rope = new Rope(Game.LocalPlayer.Character.GetOffsetPositionFront(2.5f), 40, 0.05f, 20.0f, 100.0f, 0.35f, new Vector3(0f, 0f, -9.81f), 0.15f);
+            Rope rope = new Rope(Game.LocalPlayer.Character.GetOffsetPositionFront(2.5f), 40, 0.05f, 20.0f, 100.0f, 0.35f, new Vector3(0f, 0f, -9.81f), 0.15f, 0.2f, 2.0f, 100.0f);
 
             mgr.PhysicsObjects.Add(rope);
 
@@ -269,7 +269,7 @@
         {
             PhysicsManager mgr = new PhysicsManager();
 
-            Rope rope = new Rope(Game.LocalPlayer.Character.GetOffsetPositionFront(2.5f), 35, 0.05f, 15.0f, 100.0f, 0.35f, new Vector3(0f, 0f, -9.81f), 0.15f);
+            Rope rope = new Rope(Game.LocalPlayer.Character.GetOffsetPositionFront(2.5f), 35, 0.05f, 15.0f, 100.0f, 0.35f, new Vector3(0f, 0f, -9.81f), 0.15f, 0.2f, 2.0f, 100.0f);
 
             mgr.PhysicsObjects.Add(rope);
 
@@ -281,6 +281,70 @@
                     rope.PinVertex(0, rope.GetVertexPosition(0) + positionChange * deltaTime);
                 }
                 rope.PinVertex(rope.VertexCount - 1, Game.LocalPlayer.Character.Position);
+            };
+
+            while (true)
+            {
+                GameFiber.Yield();
+
+                positionChange = new Vector3();
+
+                const float moveValue = 15f;
+                if (Game.IsKeyDownRightNow(Keys.NumPad6))
+                    positionChange.X += moveValue;
+
+                if (Game.IsKeyDownRightNow(Keys.NumPad4))
+                    positionChange.X -= moveValue;
+
+                if (Game.IsKeyDownRightNow(Keys.NumPad8))
+                    positionChange.Y -= moveValue;
+
+                if (Game.IsKeyDownRightNow(Keys.NumPad2))
+                    positionChange.Y += moveValue;
+
+                if (Game.IsKeyDownRightNow(Keys.NumPad9))
+                    positionChange.Z += moveValue;
+
+                if (Game.IsKeyDownRightNow(Keys.NumPad3))
+                    positionChange.Z -= moveValue;
+
+
+                mgr.Update();
+            }
+        }
+
+        [TestCase]
+        public static void PhysicsRopeAttachedVehicle()
+        {
+            PhysicsManager mgr = new PhysicsManager();
+            
+            Rope rope = new Rope(Game.LocalPlayer.Character.GetOffsetPositionFront(2.5f), 40, 0.05f, 20.0f, 100.0f, 0.35f, new Vector3(0f, 0f, -9.81f), 0.15f, 0.2f, 2.0f, 100.0f);
+            rope.DetectGroundCollisions = true;
+
+            mgr.PhysicsObjects.Add(rope);
+
+            Vector3 positionChange = new Vector3();
+            mgr.AfterSimulate += (deltaTime) =>
+            {
+                if (positionChange != Vector3.Zero)
+                {
+                    rope.PinVertex(0, rope.GetVertexPosition(0) + positionChange * deltaTime);
+                }
+                else
+                {
+                    if (Game.LocalPlayer.Character.IsInAnyVehicle(false))
+                    {
+                        rope.PinVertex(0, Game.LocalPlayer.Character.CurrentVehicle.RearPosition);
+                    }
+                    else
+                    {
+                        rope.PinVertex(0, Game.LocalPlayer.Character.Position);
+                        if (Game.LocalPlayer.Character.LastVehicle)
+                        {
+                            rope.PinVertex(rope.VertexCount - 1, Game.LocalPlayer.Character.LastVehicle.RearPosition);
+                        }
+                    }
+                }
             };
 
             while (true)

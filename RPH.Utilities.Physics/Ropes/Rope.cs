@@ -11,25 +11,29 @@
         readonly RopeVertex[] vertices;
         readonly SpringJoint[] springs;
 
-        Vector3 gravitation;
-        float airFrictionConstant;
+        readonly Vector3 gravitation;
+        readonly float airFrictionConstant;
+
+        readonly float groundFrictionConstant, groundAbsorptionConstant, groundRepulsionConstant;
 
         public int VertexCount { get { return vertices.Length; } }
 
-        //public Vector3 Position { get { return vertices[0].Position; } set { vertices[0].Position = value; } }
-        //public Vector3 Velocity { get { return vertices[0].Velocity; } set { vertices[0].Velocity = value; } }
+        public bool DetectGroundCollisions { get; set; }
 
-        public Rope(Vector3 position, int verticesCount, float verticesMass, float ropeTotalLength, float springConstant, float springFrictionConstant, Vector3 gravitation, float airFrictionConstant)
+        public Rope(Vector3 position, int verticesCount, float verticesMass, float ropeTotalLength, float springConstant, float springFrictionConstant, Vector3 gravitation, float airFrictionConstant, float groundFrictionConstant, float groundAbsorptionConstant, float groundRepulsionConstant)
         {
             float springLength = ropeTotalLength / Math.Max(verticesCount - 1, 1);
 
             this.gravitation = gravitation;
             this.airFrictionConstant = airFrictionConstant;
+            this.groundFrictionConstant = groundFrictionConstant;
+            this.groundAbsorptionConstant = groundAbsorptionConstant;
+            this.groundRepulsionConstant = groundRepulsionConstant;
 
             vertices = new RopeVertex[verticesCount];
             for (int i = 0; i < verticesCount; i++)
             {
-                vertices[i] = new RopeVertex(verticesMass) { Position = new Vector3(position.X, position.Y, position.Z + (i * -springLength)) };
+                vertices[i] = new RopeVertex(verticesMass) { Position = new Vector3(position.X, position.Y + (i * -springLength), position.Z) };
             }
 
             springs = new SpringJoint[verticesCount - 1];
@@ -61,6 +65,37 @@
                 vertices[i].ApplyForce(gravitation * vertices[i].Mass);
 
                 vertices[i].ApplyForce(-vertices[i].Velocity * airFrictionConstant);
+
+                if (DetectGroundCollisions)
+                {
+                    HitResult hitResult = World.TraceCapsule(vertices[i].Position, vertices[i].Position, 0.125f, TraceFlags.IntersectWorld);
+
+                    if (hitResult.Hit)
+                    {
+                        float groundHeight = hitResult.HitPosition.Z;
+
+                        if (vertices[i].Position.Z < groundHeight)
+                        {
+                            Vector3 v = vertices[i].Velocity;
+                            v.Z = 0.0f;
+
+                            vertices[i].ApplyForce(-v * groundFrictionConstant);
+
+                            v = vertices[i].Velocity;
+                            v.X = 0.0f;
+                            v.Y = 0.0f;
+
+                            if (v.Z < 0.0f)
+                            {
+                                vertices[i].ApplyForce(-v * groundAbsorptionConstant);
+                            }
+
+                            Vector3 force = new Vector3(0.0f, 0.0f, groundRepulsionConstant) * (groundHeight - vertices[i].Position.Z);
+
+                            vertices[i].ApplyForce(force);
+                        }
+                    }
+                }
             }
         }
 
@@ -89,6 +124,21 @@
         public Vector3 GetVertexPosition(int index)
         {
             return vertices[index].Position;
+        }
+
+        public Vector3 GetVertexVelocity(int index)
+        {
+            return vertices[index].Velocity;
+        }
+
+        public float GetCurrentLength()
+        {
+            float result = 0.0f;
+            for (int i = 0; i < vertices.Length - 1; i++)
+            {
+                result += Vector3.Distance(vertices[i].Position, vertices[i + 1].Position);
+            }
+            return result;
         }
 
         public void DebugDraw()
