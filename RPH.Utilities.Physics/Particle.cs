@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace RPH.Utilities.Physics
+﻿namespace RPH.Utilities.Physics
 {
     // RPH
     using Rage;
