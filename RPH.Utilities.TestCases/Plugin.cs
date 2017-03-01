@@ -16,7 +16,7 @@
 
     internal static class Plugin
     {
-        private static Dictionary<string, MethodInfo> TestMethodsByName = new Dictionary<string, MethodInfo>();
+        public static readonly Dictionary<string, MethodInfo> TestMethodsByName = new Dictionary<string, MethodInfo>();
 
         private static void Main()
         {

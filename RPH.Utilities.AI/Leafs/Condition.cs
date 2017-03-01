@@ -8,10 +8,6 @@
 
     public abstract class Condition : BehaviorLeaf
     {
-        public Condition()
-        {
-        }
-
         protected abstract bool CheckCondition(ref BehaviorTreeContext context);
 
         protected override BehaviorStatus OnBehave(ref BehaviorTreeContext context)
@@ -41,8 +37,8 @@
         public delegate bool ConditionDelegate();
         public delegate bool ConditionDelegateWithContext(ref BehaviorTreeContext context);
 
-        ConditionDelegate condition;
-        ConditionDelegateWithContext conditionWithContext;
+        private readonly ConditionDelegate condition;
+        private readonly ConditionDelegateWithContext conditionWithContext;
 
         public DelegatedCondition(ConditionDelegate condition)
         {
@@ -60,7 +56,8 @@
             {
                 return condition.Invoke();
             }
-            else if(conditionWithContext != null)
+
+            if (conditionWithContext != null)
             {
                 return conditionWithContext.Invoke(ref context);
             }

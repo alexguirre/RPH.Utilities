@@ -8,9 +8,6 @@
     /// <seealso cref="RPH.Utilities.AI.Leafs.BehaviorLeaf" />
     public abstract class Action : BehaviorLeaf
     {
-        public Action()
-        {
-        }
     }
 
     /// <summary>
@@ -22,8 +19,8 @@
         public delegate void ActionDelegate();
         public delegate void ActionDelegateWithContext(ref BehaviorTreeContext context);
 
-        ActionDelegate action;
-        ActionDelegateWithContext actionWithContext;
+        private readonly ActionDelegate action;
+        private readonly ActionDelegateWithContext actionWithContext;
 
         public DelegatedAction(ActionDelegate action)
         {
@@ -43,9 +40,9 @@
                 {
                     action.Invoke();
                 }
-                else if (actionWithContext != null)
+                else
                 {
-                    actionWithContext.Invoke(ref context);
+                    actionWithContext?.Invoke(ref context);
                 }
 
                 return BehaviorStatus.Success;

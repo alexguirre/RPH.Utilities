@@ -5,7 +5,7 @@
         public Particle A { get; }
         public Particle B { get; }
 
-        public Joint(Particle a, Particle b)
+        protected Joint(Particle a, Particle b)
         {
             A = a;
             B = b;

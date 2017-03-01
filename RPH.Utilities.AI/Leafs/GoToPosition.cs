@@ -9,10 +9,10 @@
 
     public class GoToPosition : Action
     {
-        private Func<Vector3> getTarget;
-        private string targetKey;
-        private float speed;
-        private float distanceThreshold;
+        private readonly Func<Vector3> getTarget;
+        private readonly string targetKey;
+        private readonly float speed;
+        private readonly float distanceThreshold;
 
         [Serialization.DeserializeBehaviorConstructor]
         public GoToPosition(Vector3 target, float speed, float distanceThreshold) : this(() => target, speed, distanceThreshold)
@@ -46,7 +46,7 @@
             if (task == null)
             {
                 Ped ped = ((Ped)context.Agent.Target);
-                Vector3 targetPos = getTarget != null ? getTarget() : context.Agent.Blackboard.Get<Vector3>(targetKey, context.Tree.Id);
+                Vector3 targetPos = getTarget?.Invoke() ?? context.Agent.Blackboard.Get<Vector3>(targetKey, context.Tree.Id);
                 float heading = MathHelper.ConvertDirectionToHeading((targetPos - ped.Position).ToNormalized());
 
                 task = ped.Tasks.FollowNavigationMeshToPosition(targetPos, heading, speed, distanceThreshold);
@@ -64,15 +64,9 @@
             }
             else
             {
-                Ped ped = ((Ped)context.Agent.Target);
-                if (Vector3.Distance2D(ped.Position, getTarget()) > (distanceThreshold * 1.25f))
-                {
-                    return BehaviorStatus.Failure;
-                }
-                else
-                {
-                    return BehaviorStatus.Success;
-                }
+                Ped ped = (Ped)context.Agent.Target;
+
+                return Vector3.Distance2D(ped.Position, getTarget()) > (distanceThreshold * 1.25f) ? BehaviorStatus.Failure : BehaviorStatus.Success;
             }
         }
 

@@ -5,7 +5,7 @@
 
     public class EntityExists : Condition
     {
-        string entityKey;
+        private readonly string entityKey;
 
         /// <param name="entityKey">The key where the entity is saved in the blackboard's tree memory.</param>
         [Serialization.DeserializeBehaviorConstructor]

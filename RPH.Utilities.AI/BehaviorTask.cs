@@ -7,7 +7,7 @@
     {
         public Guid Id { get; }
 
-        public BehaviorTask()
+        protected BehaviorTask()
         {
             Id = Guid.NewGuid();
         }
@@ -73,9 +73,7 @@
 
         public virtual BehaviorTask GetTaskById(Guid id)
         {
-            if (Id == id)
-                return this;
-            return null;
+            return Id == id ? this : null;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace RPH.Utilities.Physics
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace RPH.Utilities.Physics
 {
     // RPH
     using Rage;
@@ -57,22 +59,22 @@
 
         public virtual void Simulate(float deltaTime)
         {
-            if (!IsPinned)
+            if (IsPinned)
+                return;
+
+            if (IsAffectedByGravity)
             {
-                if (IsAffectedByGravity)
-                {
-                    ApplyForce(Gravitation * Mass); // Force = gravitation * mass
-                }
-
-                if (IsAffectedByAirFriction)
-                {
-                    ApplyForce(-Velocity * AirFrictionConstant);
-                }
-
-                Velocity += (Force / Mass) * deltaTime;
-
-                Position += Velocity * deltaTime;
+                ApplyForce(Gravitation * Mass); // Force = gravitation * mass
             }
+
+            if (IsAffectedByAirFriction)
+            {
+                ApplyForce(-Velocity * AirFrictionConstant);
+            }
+
+            Velocity += (Force / Mass) * deltaTime;
+
+            Position += Velocity * deltaTime;
         }
 
         public void DebugDraw()

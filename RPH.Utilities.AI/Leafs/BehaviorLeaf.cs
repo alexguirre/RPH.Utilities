@@ -12,8 +12,5 @@ namespace RPH.Utilities.AI.Leafs
     /// <seealso cref="RPH.Utilities.AI.BehaviorTask" />
     public abstract class BehaviorLeaf : BehaviorTask
     {
-        public BehaviorLeaf()
-        {
-        }
     }
 }

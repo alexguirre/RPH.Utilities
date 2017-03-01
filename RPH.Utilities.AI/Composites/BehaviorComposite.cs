@@ -9,9 +9,9 @@
     /// <seealso cref="RPH.Utilities.AI.BehaviorTask" />
     public abstract class BehaviorComposite : BehaviorTask
     {
-        protected BehaviorTask[] Children;
+        protected BehaviorTask[] Children { get; }
 
-        public BehaviorComposite(params BehaviorTask[] children)
+        protected BehaviorComposite(params BehaviorTask[] children)
         {
             Children = children;
         }

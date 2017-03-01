@@ -1,8 +1,5 @@
 ﻿namespace RPH.Utilities.AI.Decorators
 {
-    // System
-    using System;
-
     // RPH
     using Rage;
 
@@ -13,8 +10,8 @@
     {
         public delegate void ServiceDelegate(ref BehaviorTreeContext context);
 
-        private int interval = -1; // ms
-        private ServiceDelegate service;
+        private readonly int interval = -1; // ms
+        private readonly ServiceDelegate service;
 
         public Service(int interval, ServiceDelegate service, BehaviorTask child) : this(service, child)
         {

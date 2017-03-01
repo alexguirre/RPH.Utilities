@@ -10,9 +10,9 @@
 
     public class ShootAt : Action
     {
-        int duration;
-        FiringPattern firingPattern;
-        string entityToShootAtBlackboardKey;
+        private readonly int duration;
+        private readonly FiringPattern firingPattern;
+        private readonly string entityToShootAtBlackboardKey;
 
         [Serialization.DeserializeBehaviorConstructor]
         public ShootAt(int duration, FiringPattern firingPattern, string entityToShootAtBlackboardKey)

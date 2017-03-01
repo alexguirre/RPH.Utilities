@@ -3,11 +3,8 @@
     // System
     using System;
 
-    [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
     public sealed class TestCaseAttribute : Attribute
     {
-        public TestCaseAttribute()
-        {
-        }
     }
 }

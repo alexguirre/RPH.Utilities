@@ -105,13 +105,9 @@
             {
                 vertices[i].Simulate(deltaTime);
             }
-
-            //Position += Velocity * deltaTime;
-
-            //vertices[0].Pin(Position);
         }
 
-        public void PinVertex(int index, Vector3 position)
+        public void PinVertex(int index, Vector3 position) // TODO: PinVertex with Entities
         {
             vertices[index].Pin(position);
         }

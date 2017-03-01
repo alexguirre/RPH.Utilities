@@ -6,12 +6,8 @@
 
     public class Blackboard
     {
-        private Dictionary<string, object> globalMemory = new Dictionary<string, object>();
-        private Dictionary<Guid, Dictionary<string, object>> treeMemory = new Dictionary<Guid, Dictionary<string, object>>();
-
-        public Blackboard()
-        {
-        }
+        private readonly Dictionary<string, object> globalMemory = new Dictionary<string, object>();
+        private readonly Dictionary<Guid, Dictionary<string, object>> treeMemory = new Dictionary<Guid, Dictionary<string, object>>();
 
         protected Dictionary<string, object> GetTreeMemory(Guid treeScope)
         {
