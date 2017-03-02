@@ -107,9 +107,14 @@
             }
         }
 
-        public void PinVertex(int index, Vector3 position) // TODO: PinVertex with Entities
+        public void PinVertex(int index, Vector3 position)
         {
             vertices[index].Pin(position);
+        }
+
+        public void PinVertex(int index, Entity entity, Vector3 offset)
+        {
+            vertices[index].Pin(entity, offset);
         }
 
         public void UnpinVertex(int index)

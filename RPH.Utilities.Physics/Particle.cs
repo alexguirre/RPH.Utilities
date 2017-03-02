@@ -7,8 +7,9 @@
     {
         public float Mass { get; set; }
 
-        private Vector3 position, pinPosition;
-        public Vector3 Position { get { return IsPinned ? pinPosition : position; } set { position = value; } }
+        private Vector3 position, pinPosition/*or offset if pinEntity exists*/;
+        private Entity pinEntity;
+        public Vector3 Position { get { return IsPinned ? (pinEntity ? pinEntity.GetOffsetPosition(pinPosition) : pinPosition) : position; } set { position = value; } }
         public Vector3 Force { get; set; }
         public Vector3 Velocity { get; set; }
 
@@ -33,6 +34,14 @@
         public void Pin(Vector3 position)
         {
             pinPosition = position;
+            pinEntity = null;
+            IsPinned = true;
+        }
+
+        public void Pin(Entity entity, Vector3 offset)
+        {
+            pinPosition = offset;
+            pinEntity = entity;
             IsPinned = true;
         }
 
@@ -78,7 +87,6 @@
         public void DebugDraw()
         {
             Util.DrawMarker(28, Position, Vector3.Zero, Rotator.Zero, new Vector3(MathHelper.Max(Mass / 10.0f, 0.125f)), IsPinned ? System.Drawing.Color.FromArgb(140, 20, 20, 20) : System.Drawing.Color.FromArgb(110, 255, 0, 0));
-            //Util.DrawLine(Position, Position + Velocity.ToNormalized() * Velocity.Length(), System.Drawing.Color.Red);
         }
     }
 }

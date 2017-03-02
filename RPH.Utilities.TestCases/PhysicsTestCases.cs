@@ -280,8 +280,9 @@
                 {
                     rope.PinVertex(0, rope.GetVertexPosition(0) + positionChange * deltaTime);
                 }
-                rope.PinVertex(rope.VertexCount - 1, Game.LocalPlayer.Character.Position);
             };
+
+            rope.PinVertex(rope.VertexCount - 1, Game.LocalPlayer.Character, Vector3.Zero);
 
             while (true)
             {
