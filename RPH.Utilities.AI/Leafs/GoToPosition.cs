@@ -10,26 +10,27 @@
     public class GoToPosition : Action
     {
         private readonly Func<Vector3> getTarget;
-        private readonly string targetKey;
+        private readonly BlackboardGetter<Vector3> target;
         private readonly float speed;
         private readonly float distanceThreshold;
 
         [Serialization.DeserializeBehaviorConstructor]
-        public GoToPosition(Vector3 target, float speed, float distanceThreshold) : this(() => target, speed, distanceThreshold)
+        public GoToPosition(Vector3 targetPosition, float speed, float distanceThreshold) : this(() => targetPosition, speed, distanceThreshold)
         {
         }
 
+        /// <param name="targetPosition">Where to get the target <see cref="Vector3"/> from the blackboard memory.</param>
         [Serialization.DeserializeBehaviorConstructor]
-        public GoToPosition(string targetVector3Key, float speed, float distanceThreshold) : base()
+        public GoToPosition(BlackboardGetter<Vector3> targetPosition, float speed, float distanceThreshold) : base()
         {
-            this.targetKey = targetVector3Key;
+            this.target = targetPosition;
             this.speed = speed;
             this.distanceThreshold = distanceThreshold;
         }
 
-        public GoToPosition(Func<Vector3> target, float speed, float distanceThreshold) : base()
+        public GoToPosition(Func<Vector3> getTargetPosition, float speed, float distanceThreshold) : base()
         {
-            this.getTarget = target;
+            this.getTarget = getTargetPosition;
             this.speed = speed;
             this.distanceThreshold = distanceThreshold;
         }
@@ -46,7 +47,7 @@
             if (task == null)
             {
                 Ped ped = ((Ped)context.Agent.Target);
-                Vector3 targetPos = getTarget?.Invoke() ?? context.Agent.Blackboard.Get<Vector3>(targetKey, context.Tree.Id);
+                Vector3 targetPos = getTarget?.Invoke() ?? target.Get(context, this);
                 float heading = MathHelper.ConvertDirectionToHeading((targetPos - ped.Position).ToNormalized());
 
                 task = ped.Tasks.FollowNavigationMeshToPosition(targetPos, heading, speed, distanceThreshold);

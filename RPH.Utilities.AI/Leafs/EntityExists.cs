@@ -5,18 +5,18 @@
 
     public class EntityExists : Condition
     {
-        private readonly string entityKey;
+        private readonly BlackboardGetter<Entity> entity;
 
-        /// <param name="entityKey">The key where the entity is saved in the blackboard's tree memory.</param>
+        /// <param name="entity">Where to get the <see cref="Rage.Entity"/> from the blackboard memory.</param>
         [Serialization.DeserializeBehaviorConstructor]
-        public EntityExists(string entityKey)
+        public EntityExists(BlackboardGetter<Entity> entity)
         {
-            this.entityKey = entityKey;
+            this.entity = entity;
         }
 
         protected override bool CheckCondition(ref BehaviorTreeContext context)
         {
-            Entity ent = context.Agent.Blackboard.Get<Entity>(entityKey, context.Tree.Id);
+            Entity ent = entity.Get(context, this);
 
             return ent.Exists();
         }

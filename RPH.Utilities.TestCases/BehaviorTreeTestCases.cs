@@ -29,10 +29,10 @@
 
 
             BehaviorTask root = new Selector(
-                new GetNearestPedToAgent("nearestPedTarget", 100, 15.0f, (p) => p.IsAlive, 
+                new GetNearestPedToAgent(new BlackboardSetter<Ped>("nearestPedTarget", BlackboardMemoryScope.Tree), 100, 15.0f, (p) => p.IsAlive, 
                     new Sequence(
-                        new EntityExists("nearestPedTarget"),
-                        new ShootAt(3000, FiringPattern.BurstFireRifle, "nearestPedTarget")
+                        new EntityExists(new BlackboardGetter<Entity>("nearestPedTarget", BlackboardMemoryScope.Tree)),
+                        new ShootAt(3000, FiringPattern.BurstFireRifle, new BlackboardGetter<Entity>("nearestPedTarget", BlackboardMemoryScope.Tree))
                     )
                 ),
                 new StatefulSequence(

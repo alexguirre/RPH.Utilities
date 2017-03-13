@@ -12,14 +12,15 @@
     {
         private readonly int duration;
         private readonly FiringPattern firingPattern;
-        private readonly string entityToShootAtBlackboardKey;
+        private readonly BlackboardGetter<Entity> target;
 
+        /// <param name="target">Where to get the target <see cref="Entity"/> from the blackboard memory.</param>
         [Serialization.DeserializeBehaviorConstructor]
-        public ShootAt(int duration, FiringPattern firingPattern, string entityToShootAtBlackboardKey)
+        public ShootAt(int duration, FiringPattern firingPattern, BlackboardGetter<Entity> target)
         {
             this.duration = duration;
             this.firingPattern = firingPattern;
-            this.entityToShootAtBlackboardKey = entityToShootAtBlackboardKey;
+            this.target = target;
         }
 
         protected override void OnOpen(ref BehaviorTreeContext context)
@@ -37,11 +38,11 @@
             {
                 Ped ped = ((Ped)context.Agent.Target);
 
-                Entity target = context.Agent.Blackboard.Get<Entity>(entityToShootAtBlackboardKey, context.Tree.Id, null);
+                Entity ent = target.Get(context, this);
 
-                if (target)
+                if (ent)
                 {
-                    task = ped.Tasks.FireWeaponAt(target, duration, firingPattern);
+                    task = ped.Tasks.FireWeaponAt(ent, duration, firingPattern);
                     context.Agent.Blackboard.Set<Task>("shootAtPedTargetTask", task, context.Tree.Id, this.Id);
                 }
             }

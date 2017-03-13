@@ -7,21 +7,38 @@
     // RPH
     using Rage;
 
-    public class GetNearestPedToPosition : Service // stores nearest ped to position in blackboard(tree memory) in "key" 
+    public class GetNearestPedToPosition : Service
     {
-        /// <param name="key">The key where the ped will be saved in the blackboard's tree memory.</param>
+        private readonly BlackboardSetter<Ped> pedSetter;
+        private readonly Vector3 position;
+        private readonly float range;
+        private readonly Predicate<Ped> pedPredicate;
+
+        /// <param name="pedSetter">Where the ped will be saved in the blackboard memory.</param>
         /// <param name="pedPredicate">If returns true or is null the ped can be considered for nearest ped.</param>
-        public GetNearestPedToPosition(string key, int interval, Vector3 position, float range, Predicate<Ped> pedPredicate, BehaviorTask child) : base(interval, (ref BehaviorTreeContext c) => DoService(key, position, range, pedPredicate, ref c), child)
+        public GetNearestPedToPosition(BlackboardSetter<Ped> pedSetter, int interval, Vector3 position, float range, Predicate<Ped> pedPredicate, BehaviorTask child) : base(interval, null, child)
         {
+            this.pedSetter = pedSetter;
+            this.position = position;
+            this.range = range;
+            this.pedPredicate = pedPredicate;
+
+            ServiceMethod = DoService;
         }
 
-        /// <param name="key">The key where the ped will be saved in the blackboard's tree memory.</param>
+        /// <param name="pedSetter">Where the ped will be saved in the blackboard memory.</param>
         /// <param name="pedPredicate">If returns true or is null the ped can be considered for nearest ped.</param>
-        public GetNearestPedToPosition(string key, Vector3 position, float range, Predicate<Ped> pedPredicate, BehaviorTask child) : base((ref BehaviorTreeContext c) => DoService(key, position, range, pedPredicate, ref c), child)
+        public GetNearestPedToPosition(BlackboardSetter<Ped> pedSetter, Vector3 position, float range, Predicate<Ped> pedPredicate, BehaviorTask child) : base(null, child)
         {
+            this.pedSetter = pedSetter;
+            this.position = position;
+            this.range = range;
+            this.pedPredicate = pedPredicate;
+
+            ServiceMethod = DoService;
         }
 
-        private static void DoService(string key, Vector3 position, float range, Predicate<Ped> pedPredicate, ref BehaviorTreeContext context)
+        private void DoService(ref BehaviorTreeContext context)
         {
             Entity[] nearbyPeds = World.GetEntities(position, range, GetEntitiesFlags.ConsiderAllPeds);
 
@@ -30,30 +47,44 @@
                 Ped p = (Ped)e;
                 if (pedPredicate == null || pedPredicate.Invoke(p))
                 {
-                    context.Agent.Blackboard.Set<Ped>(key, p, context.Tree.Id);
+                    pedSetter.Set(context, this, p);
                     return;
                 }
             }
 
-            context.Agent.Blackboard.Set<Ped>(key, null, context.Tree.Id);
+            pedSetter.Set(context, this, null);
         }
     }
 
-    public class GetNearestPedToAgent : Service // stores nearest ped to Agent.Target(if is ISpatial) in "key"
+    public class GetNearestPedToAgent : Service
     {
-        /// <param name="key">The key where the ped will be saved in the blackboard's tree memory.</param>
+        private readonly BlackboardSetter<Ped> pedSetter;
+        private readonly float range;
+        private readonly Predicate<Ped> pedPredicate;
+
+        /// <param name="pedSetter">Where the ped will be saved in the blackboard memory.</param>
         /// <param name="pedPredicate">If returns true or is null the ped can be considered for nearest ped.</param>
-        public GetNearestPedToAgent(string key, int interval, float range, Predicate<Ped> pedPredicate, BehaviorTask child) : base(interval, (ref BehaviorTreeContext c) => DoService(key, range, pedPredicate, ref c), child)
+        public GetNearestPedToAgent(BlackboardSetter<Ped> pedSetter, int interval, float range, Predicate<Ped> pedPredicate, BehaviorTask child) : base(interval, null, child)
         {
+            this.pedSetter = pedSetter;
+            this.range = range;
+            this.pedPredicate = pedPredicate;
+
+            ServiceMethod = DoService;
         }
 
-        /// <param name="key">The key where the ped will be saved in the blackboard's tree memory.</param>
+        /// <param name="pedSetter">Where the ped will be saved in the blackboard memory.</param>
         /// <param name="pedPredicate">If returns true or is null the ped can be considered for nearest ped.</param>
-        public GetNearestPedToAgent(string key, float range, Predicate<Ped> pedPredicate, BehaviorTask child) : base((ref BehaviorTreeContext c) => DoService(key, range, pedPredicate, ref c), child)
+        public GetNearestPedToAgent(BlackboardSetter<Ped> pedSetter, float range, Predicate<Ped> pedPredicate, BehaviorTask child) : base(null, child)
         {
+            this.pedSetter = pedSetter;
+            this.range = range;
+            this.pedPredicate = pedPredicate;
+
+            ServiceMethod = DoService;
         }
 
-        private static void DoService(string key, float range, Predicate<Ped> pedPredicate, ref BehaviorTreeContext context)
+        private void DoService(ref BehaviorTreeContext context)
         {
             if (!(context.Agent.Target is ISpatial))
             {
@@ -72,12 +103,12 @@
                     Ped contextPed = context.Agent.Target as Ped;
                     if (contextPed == null || contextPed != p)
                     {
-                        context.Agent.Blackboard.Set<Ped>(key, p, context.Tree.Id);
+                        pedSetter.Set(context, this, p);
                         return;
                     }
                 }
             }
-            context.Agent.Blackboard.Set<Ped>(key, null, context.Tree.Id);
+            pedSetter.Set(context, this, null);
         }
     }
 }

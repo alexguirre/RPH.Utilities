@@ -93,4 +93,57 @@
             Set(key, (object)value, treeScope, nodeScope);
         }
     }
+
+    public class BlackboardGetter<T>
+    {
+        public string Key { get; }
+        public BlackboardMemoryScope MemoryScope { get; }
+
+        public BlackboardGetter(string key, BlackboardMemoryScope memoryScope)
+        {
+            Key = key;
+            MemoryScope = memoryScope;
+        }
+
+        public T Get(BehaviorTreeContext context, BehaviorTask node, T defaultValue = default(T))
+        {
+            switch (MemoryScope)
+            {
+                case BlackboardMemoryScope.Global: return context.Agent.Blackboard.Get<T>(Key, null, null, defaultValue);
+                case BlackboardMemoryScope.Tree: return context.Agent.Blackboard.Get<T>(Key, context.Tree.Id, null, defaultValue);
+                case BlackboardMemoryScope.Node: return context.Agent.Blackboard.Get<T>(Key, context.Tree.Id, node.Id, defaultValue);
+            }
+
+            return defaultValue;
+        }
+    }
+
+    public class BlackboardSetter<T>
+    {
+        public string Key { get; }
+        public BlackboardMemoryScope MemoryScope { get; }
+
+        public BlackboardSetter(string key, BlackboardMemoryScope memoryScope)
+        {
+            Key = key;
+            MemoryScope = memoryScope;
+        }
+
+        public void Set(BehaviorTreeContext context, BehaviorTask node, T value)
+        {
+            switch (MemoryScope)
+            {
+                case BlackboardMemoryScope.Global: context.Agent.Blackboard.Set(Key, value, null, null); break;
+                case BlackboardMemoryScope.Tree: context.Agent.Blackboard.Set(Key, value, context.Tree.Id, null); break;
+                case BlackboardMemoryScope.Node: context.Agent.Blackboard.Set(Key, value, context.Tree.Id, node.Id); break;
+            }
+        }
+    }
+
+    public enum BlackboardMemoryScope
+    {
+        Global,
+        Tree,
+        Node,
+    }
 }

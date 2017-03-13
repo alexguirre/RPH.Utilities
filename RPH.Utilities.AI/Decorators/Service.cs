@@ -11,7 +11,7 @@
         public delegate void ServiceDelegate(ref BehaviorTreeContext context);
 
         private readonly int interval = -1; // ms
-        private readonly ServiceDelegate service;
+        protected ServiceDelegate ServiceMethod { get; set; }
 
         public Service(int interval, ServiceDelegate service, BehaviorTask child) : this(service, child)
         {
@@ -20,7 +20,7 @@
 
         public Service(ServiceDelegate service, BehaviorTask child) : base(child)
         {
-            this.service = service;
+            this.ServiceMethod = service;
         }
 
         protected override BehaviorStatus OnBehave(ref BehaviorTreeContext context)
@@ -29,7 +29,7 @@
             {
                 if (interval <= -1)
                 {
-                    service.Invoke(ref context);
+                    ServiceMethod.Invoke(ref context);
                 }
                 else
                 {
@@ -38,7 +38,7 @@
 
                     if (gameTime - lastServiceGameTime > interval)
                     {
-                        service.Invoke(ref context);
+                        ServiceMethod.Invoke(ref context);
                         context.Agent.Blackboard.Set<uint>("lastServiceGameTime", gameTime, context.Tree.Id, this.Id);
                     }
                 }
