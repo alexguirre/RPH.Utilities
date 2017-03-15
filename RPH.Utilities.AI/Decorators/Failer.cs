@@ -9,7 +9,6 @@
     /// <seealso cref="RPH.Utilities.AI.Decorators.BehaviorDecorator" />
     public class Failer : BehaviorDecorator
     {
-        [Serialization.DeserializeBehaviorConstructor]
         public Failer(BehaviorTask child) : base(child)
         {
         }

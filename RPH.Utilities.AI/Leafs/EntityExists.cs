@@ -8,7 +8,6 @@
         private readonly BlackboardGetter<Entity> entity;
 
         /// <param name="entity">Where to get the <see cref="Rage.Entity"/> from the blackboard memory.</param>
-        [Serialization.DeserializeBehaviorConstructor]
         public EntityExists(BlackboardGetter<Entity> entity)
         {
             this.entity = entity;

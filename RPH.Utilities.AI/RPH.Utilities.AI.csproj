@@ -85,9 +85,6 @@
     <Compile Include="Decorators\GetNearestPed.cs" />
     <Compile Include="Leafs\ShootAt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization\DeserializeBehaviorConstructorAttribute.cs" />
-    <Compile Include="Serialization\SerializableBehaviorTask.cs" />
-    <Compile Include="Serialization\SerializableBehaviorTree.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

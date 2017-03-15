@@ -18,7 +18,6 @@
     /// <seealso cref="RPH.Utilities.AI.Composites.BehaviorComposite" />
     public class Sequence : BehaviorComposite
     {
-        [Serialization.DeserializeBehaviorConstructor]
         public Sequence(params BehaviorTask[] children) : base(children)
         {
         }

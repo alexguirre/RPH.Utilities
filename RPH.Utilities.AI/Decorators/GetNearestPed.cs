@@ -14,7 +14,7 @@
         private readonly float range;
         private readonly Predicate<Ped> pedPredicate;
 
-        /// <param name="pedSetter">Where the ped will be saved in the blackboard memory.</param>
+        /// <param name="pedSetter">Where the <see cref="Ped"/> will be saved in the blackboard memory.</param>
         /// <param name="pedPredicate">If returns true or is null the ped can be considered for nearest ped.</param>
         public GetNearestPedToPosition(BlackboardSetter<Ped> pedSetter, int interval, Vector3 position, float range, Predicate<Ped> pedPredicate, BehaviorTask child) : base(interval, null, child)
         {
@@ -26,7 +26,7 @@
             ServiceMethod = DoService;
         }
 
-        /// <param name="pedSetter">Where the ped will be saved in the blackboard memory.</param>
+        /// <param name="pedSetter">Where the <see cref="Ped"/> will be saved in the blackboard memory.</param>
         /// <param name="pedPredicate">If returns true or is null the ped can be considered for nearest ped.</param>
         public GetNearestPedToPosition(BlackboardSetter<Ped> pedSetter, Vector3 position, float range, Predicate<Ped> pedPredicate, BehaviorTask child) : base(null, child)
         {
@@ -62,7 +62,7 @@
         private readonly float range;
         private readonly Predicate<Ped> pedPredicate;
 
-        /// <param name="pedSetter">Where the ped will be saved in the blackboard memory.</param>
+        /// <param name="pedSetter">Where the <see cref="Ped"/> will be saved in the blackboard memory.</param>
         /// <param name="pedPredicate">If returns true or is null the ped can be considered for nearest ped.</param>
         public GetNearestPedToAgent(BlackboardSetter<Ped> pedSetter, int interval, float range, Predicate<Ped> pedPredicate, BehaviorTask child) : base(interval, null, child)
         {
@@ -73,7 +73,7 @@
             ServiceMethod = DoService;
         }
 
-        /// <param name="pedSetter">Where the ped will be saved in the blackboard memory.</param>
+        /// <param name="pedSetter">Where the <see cref="Ped"/> will be saved in the blackboard memory.</param>
         /// <param name="pedPredicate">If returns true or is null the ped can be considered for nearest ped.</param>
         public GetNearestPedToAgent(BlackboardSetter<Ped> pedSetter, float range, Predicate<Ped> pedPredicate, BehaviorTask child) : base(null, child)
         {

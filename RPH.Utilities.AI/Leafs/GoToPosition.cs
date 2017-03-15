@@ -13,14 +13,12 @@
         private readonly BlackboardGetter<Vector3> target;
         private readonly float speed;
         private readonly float distanceThreshold;
-
-        [Serialization.DeserializeBehaviorConstructor]
+        
         public GoToPosition(Vector3 targetPosition, float speed, float distanceThreshold) : this(() => targetPosition, speed, distanceThreshold)
         {
         }
 
         /// <param name="targetPosition">Where to get the target <see cref="Vector3"/> from the blackboard memory.</param>
-        [Serialization.DeserializeBehaviorConstructor]
         public GoToPosition(BlackboardGetter<Vector3> targetPosition, float speed, float distanceThreshold) : base()
         {
             this.target = targetPosition;

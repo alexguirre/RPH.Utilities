@@ -18,7 +18,6 @@
     /// <seealso cref="RPH.Utilities.AI.Composites.BehaviorComposite" />
     public class StatefulSelector : BehaviorComposite
     {
-        [Serialization.DeserializeBehaviorConstructor]
         public StatefulSelector(params BehaviorTask[] children) : base(children)
         {
         }

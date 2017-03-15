@@ -9,8 +9,7 @@ namespace RPH.Utilities.AI.Decorators
     public abstract class BehaviorDecorator : BehaviorTask
     {
         protected BehaviorTask Child { get; }
-
-        [Serialization.DeserializeBehaviorConstructor]
+        
         protected BehaviorDecorator(BehaviorTask child)
         {
             Child = child;

@@ -9,7 +9,6 @@
     /// <seealso cref="RPH.Utilities.AI.Decorators.BehaviorDecorator" />
     public class Succeeder : BehaviorDecorator
     {
-        [Serialization.DeserializeBehaviorConstructor]
         public Succeeder(BehaviorTask child) : base(child)
         {
         }

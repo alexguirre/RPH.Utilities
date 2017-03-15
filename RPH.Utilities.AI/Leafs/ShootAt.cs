@@ -15,7 +15,6 @@
         private readonly BlackboardGetter<Entity> target;
 
         /// <param name="target">Where to get the target <see cref="Entity"/> from the blackboard memory.</param>
-        [Serialization.DeserializeBehaviorConstructor]
         public ShootAt(int duration, FiringPattern firingPattern, BlackboardGetter<Entity> target)
         {
             this.duration = duration;

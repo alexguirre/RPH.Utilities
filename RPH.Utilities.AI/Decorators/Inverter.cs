@@ -21,7 +21,6 @@
     /// <seealso cref="RPH.Utilities.AI.Decorators.BehaviorDecorator" />
     public class Inverter : BehaviorDecorator
     {
-        [Serialization.DeserializeBehaviorConstructor]
         public Inverter(BehaviorTask child) : base(child)
         {
         }
